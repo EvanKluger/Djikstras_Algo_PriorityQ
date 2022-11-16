@@ -22,27 +22,27 @@
 #include "hash.h"
 #include "heap.h"
 #include "graph.h"
-#include "dijkstras.h"
 
 
 
 int main(){
     //Construct Graph
-    string filename;
     string filename_i;
     string filename_o;
     string starting_vertex;
     cout << "Enter name of graph file: ";
-    cin >> filename;
+    cin >> filename_i;
     
     cout << "Enter name of starting vertex: ";
     cin >> starting_vertex;
 
     cout << "Enter name of output file: ";
     cin >> filename_o;
+    
+    graph Graph(filename_i);
 
     clock_t t1_Dict = clock();
-    //dijkstras();
+    Graph.dijkstras(starting_vertex, filename_o);
     clock_t t2_Dict = clock();
     double timeDiff_Dict = ((double) (t2_Dict - t1_Dict)) / CLOCKS_PER_SEC;
 

@@ -36,6 +36,7 @@ int heap::insert(const std::string &id, int key, void *pv){
     }
     else{
         if(mapping.contains(id) == true){
+            
             return 2;
         }
         data[current_size].key = key;
@@ -101,6 +102,10 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData){
         if(pId != nullptr){
         *pId = data[1].id;
         }
+        if(ppData != nullptr){
+        *(static_cast<void **>(ppData)) = data[1].pv; 
+        }
+
         mapping.remove(data[1].id);
         data[1] = data[current_size-1];
         mapping.setPointer(data[current_size-1].id, &data[1]);
@@ -126,19 +131,22 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData){
 int heap::remove(const std::string &id, int *pKey, void *ppData){
 //FIX THIS
 if(mapping.contains(id) == true){
+    
+    
+    
     node *node_ptr = static_cast<node *>(mapping.getPointer(id));
     int idx = getPos(node_ptr);
-
-    *pKey = data[idx].key;
-    int temp = *pKey; 
+    
+    if(pKey != NULL){
+        *pKey = data[idx].key;
+    }
+    if(ppData != NULL){
+        *(static_cast<void **>(ppData)) = data[idx].pv; 
+    }
 
     data[idx].key = data[1].key-1;
-
     percolateUp(idx);
-
     deleteMin(nullptr, pKey, ppData);
-
-    *pKey = temp;
     
     return 0;
 }
@@ -227,11 +235,12 @@ int heap::currentSize(){
 
 int heap::getKey(const std::string &id){
     if(mapping.contains(id) == true){
-    int key;
-    node *node_ptr = static_cast<node *>(mapping.getPointer(id));
-    node_ptr->key = key;
-
-    return key;
+    
+        int key;
+        
+        node *node_ptr = static_cast<node *>(mapping.getPointer(id));
+        key = node_ptr -> key;
+        return key;
     } 
     return -1;
 }
