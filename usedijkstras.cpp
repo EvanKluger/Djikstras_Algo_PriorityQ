@@ -30,16 +30,23 @@ int main(){
     string filename_i;
     string filename_o;
     string starting_vertex;
+    bool valid_vertex = false;
     cout << "Enter name of graph file: ";
     cin >> filename_i;
     
+    graph Graph(filename_i);
+
+    while(valid_vertex == false){
     cout << "Enter name of starting vertex: ";
     cin >> starting_vertex;
-
+    
+    valid_vertex = Graph.valid_starting_vertex(starting_vertex);
+    }
+    
     cout << "Enter name of output file: ";
     cin >> filename_o;
     
-    graph Graph(filename_i);
+    
 
     clock_t t1_Dict = clock();
     Graph.dijkstras(starting_vertex, filename_o);
